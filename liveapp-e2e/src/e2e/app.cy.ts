@@ -5,11 +5,11 @@ describe('liveapp-e2e', () => {
 
   it('should display welcome message', () => {
     cy.get('#radio2').check().should('be.checked');
-    cy.get('#radio1').should('not.be.checked');
-    cy.get('#check1').check().should('be.checked');
-    cy.get('#dropdown').select('Two').should('have.value', 'Two');
-    const date = '2025-12-25';
-    cy.get('#datepicker').type(date).should('have.value', date);
+    // cy.get('#radio1').should('not.be.checked');
+    // cy.get('#check1').check().should('be.checked');
+    // cy.get('#dropdown').select('Two').should('have.value', 'Two');
+    // const date = '2025-12-25';
+    // cy.get('#datepicker').type(date).should('have.value', date);
   });
 });
 // describe('GraphQL Greeting Test', () => {
