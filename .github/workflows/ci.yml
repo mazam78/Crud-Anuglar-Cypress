@@ -1,0 +1,80 @@
+# name: Nx CI
+
+# on:
+#   push:
+#     branches: [main]
+
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 18
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Lint
+#         run: npx nx lint liveapp
+
+#       - name: Unit Tests
+#         run: npx nx test liveapp
+
+#       - name: E2E Tests
+#         run: npx nx e2e liveapp-e2e
+
+#       - name: Build Angular App
+#         run: npx nx build liveapp
+name: LiveApp CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # ✅ Build Angular App
+      - name: Build LiveApp
+        run: npx nx build liveapp
+
+      # ✅ Run only LiveApp E2E tests
+      - name: Run LiveApp E2E Tests
+        run: npx nx e2e liveapp-e2e
+
+      # ✅ Upload Cypress results if tests fail
+      - name: Upload Cypress Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            dist/cypress/**/screenshots
+            dist/cypress/**/videos
+

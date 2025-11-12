@@ -1,0 +1,22 @@
+{
+  "name": "liveapp-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "liveapp-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["liveapp"],
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "liveapp-e2e/cypress.config.ts",
+        "devServerTarget": "liveapp:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "liveapp:serve:production"
+        }
+      }
+    }
+  }
+}
